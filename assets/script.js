@@ -1,59 +1,53 @@
-let timeDisplayEl = $('#currentDay');
-// retrieves current date
-var currentDate = dayjs().format('MMM DD, YYYY');
-timeDisplayEl.text(currentDate);
+$(function () {
 
-$(document).ready(function () {
+  let timeDisplayEl = $('#currentDay');
+  // retrieves current date
+  var currentDate = dayjs().format('MMM DD, YYYY');
+  timeDisplayEl.text(currentDate);
 
-  // stores text input and time in local storage
-  $(".saveBtn").on("click", function () {
-    let text = $(this).siblings(".description").val();
-    let time = $(this).parent().attr("id");
+  $(document).ready(function () {
 
-    localStorage.setItem(time, text);
-  })
+    // stores text input and time in local storage
+    $(".saveBtn").on("click", function () {
+      text = $(this).siblings(".description").val();
+      time = $(this).parent().attr("id");
 
-  // retrieves current time
-  function timeTracker() {
-    let now = moment();
-    let currentTime = now.hour();
-    console.log(currentTime);
-  
-// determines css style based on current time
-    $(".time-block").each(function () {
-      let timeBlock = parseInt($(this).attr("id").split("hour")[1]);
-
-      if (timeBlock < currentTime) {
-        $(this).removeClass("future");
-        $(this).removeClass("present");
-        $(this).addClass("past");
-      }
-      else if (timeBlock === currentTime) {
-        $(this).removeClass("future");
-        $(this).removeClass("past");
-        $(this).addClass("present");
-      }
-      else if (timeBlock > currentTime) {
-        $(this).removeClass("present");
-        $(this).removeClass("past");
-        $(this).addClass("future");
-      }
+      localStorage.setItem(time, text);
     })
-  }
 
-  // Retrieves text input content from local storage
-$("#hour8 .description").val(localStorage.getItem("hour8"));
-$("#hour9 .description").val(localStorage.getItem("hour9"));
-$("#hour10 .description").val(localStorage.getItem("hour10"));
-$("#hour11 .description").val(localStorage.getItem("hour11"));
-$("#hour12 .description").val(localStorage.getItem("hour12"));
-$("#hour13 .description").val(localStorage.getItem("hour13"));
-$("#hour14 .description").val(localStorage.getItem("hour14"));
-$("#hour15 .description").val(localStorage.getItem("hour15"));
-$("#hour16 .description").val(localStorage.getItem("hour16"));
-$("#hour17 .description").val(localStorage.getItem("hour17"));
+    function applyStyle() {
+      // retrieves current hour
+      let currentHour = dayjs().hour();
+      console.log (currentHour);
 
-timeTracker();
+      // determines css style comparing the hour in the id to  the current hour
+      $(".time-block").each(function () {
+        hour = parseInt($(this).attr("id").split("-")[1]);
 
+        if (hour < currentHour) {
+          $(this).addClass("past");
+        }
+        else if (hour === currentHour) {
+          $(this).addClass("present");
+        }
+        else if (hour > currentHour) {
+          $(this).addClass("future");
+        }
+      })
+    }
+
+    $("#hour-8 .description").val(localStorage.getItem("hour-8"));
+    $("#hour-9 .description").val(localStorage.getItem("hour-9"));
+    $("#hour-10 .description").val(localStorage.getItem("hour-10"));
+    $("#hour-11 .description").val(localStorage.getItem("hour-11"));
+    $("#hour-12 .description").val(localStorage.getItem("hour-12"));
+    $("#hour-13 .description").val(localStorage.getItem("hour-13"));
+    $("#hour-14 .description").val(localStorage.getItem("hour-14"));
+    $("#hour-15 .description").val(localStorage.getItem("hour-15"));
+    $("#hour-16 .description").val(localStorage.getItem("hour-16"));
+    $("#hour-17 .description").val(localStorage.getItem("hour-17"));
+
+    applyStyle();
+
+  })
 })
-
